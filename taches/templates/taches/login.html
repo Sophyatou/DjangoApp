@@ -1,0 +1,168 @@
+{% extends 'taches/base.html' %}
+{% block content %}
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <div class="app-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z"/>
+                    <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
+                </svg>
+            </div>
+            <h2>Connexion</h2>
+            <p class="login-subtitle">Connectez-vous pour accéder à votre espace</p>
+        </div>
+        
+        <form method="post" class="login-form">
+            {% csrf_token %}
+            <div class="form-fields">
+                {{ form.as_p }}
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-login">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z"/>
+                        <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
+                    </svg>
+                    Se connecter
+                </button>
+            </div>
+        </form>
+        <div class="signup-link">
+            <p>Pas encore de compte ? <a href="{% url 'signup' %}">S'inscrire</a></p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .login-container {
+        max-width: 450px;
+        margin: 30px auto;
+        padding: 20px;
+    }
+
+    .login-card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        padding: 40px 30px;
+    }
+
+    .login-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .app-logo {
+        color: #3b71ca;
+        margin-bottom: 15px;
+    }
+
+    .login-header h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .login-subtitle {
+        color: #6c757d;
+        margin-top: 0;
+    }
+
+    .login-form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-fields {
+        margin-bottom: 25px;
+    }
+
+    .form-fields p {
+        margin-bottom: 20px;
+    }
+
+    .form-fields label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #495057;
+    }
+
+    .form-fields input {
+        width: 100%;
+        padding: 14px 16px;
+        border: 1px solid #ced4da;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-fields input:focus {
+        border-color: #3b71ca;
+        box-shadow: 0 0 0 3px rgba(59, 113, 202, 0.25);
+        outline: none;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: center;
+    }
+
+    .btn-login {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 28px;
+        width: 100%;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        background: linear-gradient(135deg, #3b71ca, #4c6ef5);
+        color: white;
+        box-shadow: 0 4px 6px rgba(59, 113, 202, 0.2);
+    }
+
+    .btn-login:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(59, 113, 202, 0.3);
+    }
+
+    .btn-login svg {
+        margin-right: 10px;
+    }
+
+    /* Animation */
+    .login-card {
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .login-container {
+            padding: 10px;
+        }
+        
+        .login-card {
+            padding: 30px 20px;
+        }
+    }
+</style>
+{% endblock %}

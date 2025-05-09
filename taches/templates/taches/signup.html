@@ -1,0 +1,192 @@
+{% extends 'taches/base.html' %}
+{% block content %}
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <div class="app-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z"/>
+                    <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
+                </svg>
+            </div>
+            <h2>Inscription</h2>
+            <p class="login-subtitle">Créez votre compte pour gérer vos tâches</p>
+        </div>
+        
+        <form method="post" class="login-form">
+            {% csrf_token %}
+            <div class="form-fields">
+                {% for field in form %}
+                    <div class="form-field">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <small class="form-help">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <div class="form-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-login">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+                    </svg>
+                    S'inscrire
+                </button>
+            </div>
+        </form>
+        <div class="signup-link">
+            <p>Déjà un compte ? <a href="{% url 'login' %}">Se connecter</a></p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .login-container {
+        max-width: 450px;
+        margin: 30px auto;
+        padding: 20px;
+    }
+
+    .login-card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        padding: 40px 30px;
+    }
+
+    .login-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .app-logo {
+        color: #3b71ca;
+        margin-bottom: 15px;
+    }
+
+    .login-header h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .login-subtitle {
+        color: #6c757d;
+        margin-top: 0;
+    }
+
+    .login-form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-fields {
+        margin-bottom: 25px;
+    }
+
+    .form-field {
+        margin-bottom: 20px;
+    }
+
+    .form-fields label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #495057;
+    }
+
+    .form-fields input {
+        width: 100%;
+        padding: 14px 16px;
+        border: 1px solid #ced4da;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-fields input:focus {
+        border-color: #3b71ca;
+        box-shadow: 0 0 0 3px rgba(59, 113, 202, 0.25);
+        outline: none;
+    }
+
+    .form-help {
+        display: block;
+        margin-top: 5px;
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
+
+    .form-error {
+        display: block;
+        margin-top: 5px;
+        font-size: 0.85rem;
+        color: #dc3545;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: center;
+    }
+
+    .btn-login {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 28px;
+        width: 100%;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        background: linear-gradient(135deg, #3b71ca, #4c6ef5);
+        color: white;
+        box-shadow: 0 4px 6px rgba(59, 113, 202, 0.2);
+    }
+
+    .btn-login:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(59, 113, 202, 0.3);
+    }
+
+    .btn-login svg {
+        margin-right: 10px;
+    }
+
+    /* Animation */
+    .login-card {
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .login-container {
+            padding: 10px;
+        }
+        
+        .login-card {
+            padding: 30px 20px;
+        }
+    }
+</style>
+{% endblock %}

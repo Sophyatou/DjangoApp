@@ -1,0 +1,174 @@
+{% extends 'taches/base.html' %}
+{% block content %}
+<div class="delete-container">
+    <div class="delete-card">
+        <div class="delete-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+        </div>
+        
+        <div class="delete-header">
+            <h2>Confirmation de suppression</h2>
+            <p class="delete-subtitle">Cette action ne peut pas être annulée</p>
+        </div>
+        
+        <div class="delete-content">
+            <p>Êtes-vous sûr de vouloir supprimer la tâche :</p>
+            <div class="task-name">{{ object.title }}</div>
+        </div>
+        
+        <form method="post" class="delete-form">
+            {% csrf_token %}
+            <div class="delete-actions">
+                <button type="submit" class="btn-delete">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                    </svg>
+                    Oui, supprimer
+                </button>
+                <a href="{% url 'tache_list' %}" class="btn-cancel">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                    </svg>
+                    Annuler
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .delete-container {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .delete-card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        padding: 30px;
+        text-align: center;
+    }
+
+    .delete-icon {
+        color: #dc4c64;
+        margin-bottom: 20px;
+    }
+
+    .delete-header {
+        margin-bottom: 25px;
+    }
+
+    .delete-header h2 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #dc4c64;
+        margin-bottom: 5px;
+    }
+
+    .delete-subtitle {
+        color: #6c757d;
+        margin-top: 0;
+    }
+
+    .delete-content {
+        margin-bottom: 25px;
+    }
+
+    .delete-content p {
+        color: #495057;
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+    }
+
+    .task-name {
+        font-weight: 600;
+        font-size: 1.2rem;
+        padding: 12px 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    .delete-form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .delete-actions {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+    }
+
+    .btn-delete, .btn-cancel {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-delete {
+        background: linear-gradient(135deg, #dc4c64, #e76d7f);
+        color: white;
+        box-shadow: 0 4px 6px rgba(220, 76, 100, 0.2);
+    }
+
+    .btn-delete:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(220, 76, 100, 0.3);
+    }
+
+    .btn-cancel {
+        background-color: #f8f9fa;
+        color: #495057;
+        border: 1px solid #ced4da;
+    }
+
+    .btn-cancel:hover {
+        background-color: #e9ecef;
+    }
+
+    .btn-delete svg, .btn-cancel svg {
+        margin-right: 8px;
+    }
+
+    /* Animation */
+    .delete-card {
+        animation: appear 0.3s ease-out;
+    }
+
+    @keyframes appear {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .delete-actions {
+            flex-direction: column;
+        }
+        
+        .btn-delete, .btn-cancel {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}

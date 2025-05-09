@@ -1,0 +1,154 @@
+{% extends 'taches/base.html' %}
+{% block content %}
+<div class="form-container">
+    <div class="form-card">
+        <div class="form-header">
+            <h2>{{ view.object.pk|yesno:"Modifier la tâche,Ajouter une tâche" }}</h2>
+            <p class="form-subtitle">{% if view.object.pk %}Mettez à jour les informations de votre tâche{% else %}Créez une nouvelle tâche pour votre liste{% endif %}</p>
+        </div>
+        
+        <form method="post" class="custom-form">
+            {% csrf_token %}
+            <div class="form-fields">
+                {{ form.as_p }}
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                    </svg>
+                    Enregistrer
+                </button>
+                <a href="{% url 'tache_list' %}" class="btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                    </svg>
+                    Annuler
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .form-card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        padding: 30px;
+    }
+
+    .form-header {
+        margin-bottom: 25px;
+    }
+
+    .form-header h2 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .form-subtitle {
+        color: #6c757d;
+        margin-top: 0;
+    }
+
+    .custom-form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-fields {
+        margin-bottom: 25px;
+    }
+
+    .form-fields p {
+        margin-bottom: 15px;
+    }
+
+    .form-fields label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #495057;
+    }
+
+    .form-fields input, .form-fields select, .form-fields textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ced4da;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-fields input:focus, .form-fields select:focus, .form-fields textarea:focus {
+        border-color: #376cc2;
+        box-shadow: 0 0 0 3px rgba(53, 103, 185, 0.25);
+        outline: none;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 15px;
+    }
+
+    .btn-primary, .btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #3b71ca, #4c6ef5);
+        color: white;
+        box-shadow: 0 4px 6px rgba(59, 113, 202, 0.2);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(59, 113, 202, 0.3);
+    }
+
+    .btn-secondary {
+        background-color: #f8f9fa;
+        color: #495057;
+        border: 1px solid #ced4da;
+    }
+
+    .btn-secondary:hover {
+        background-color: #e9ecef;
+    }
+
+    .btn-primary svg, .btn-secondary svg {
+        margin-right: 8px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .form-actions {
+            flex-direction: column;
+        }
+        
+        .btn-primary, .btn-secondary {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,383 @@
+{% extends 'taches/base.html' %}
+{% block content %}
+<div class="task-dashboard">
+    <!-- En-tête avec statistiques -->
+    <div class="dashboard-header">
+        <div class="dashboard-title">
+            <h2>Mes Tâches</h2>
+            <p class="subtitle">Gérez efficacement vos tâches quotidiennes</p>
+        </div>
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-value">{{ object_list|length }}</div>
+                <div class="stat-label">Total</div>
+            </div>
+            <div class="stat-card completed">
+                <div class="stat-value">{{ completed_count }}</div>
+                <div class="stat-label">Terminées</div>
+            </div>
+            <div class="stat-card pending">
+                <div class="stat-value">{{ pending_count }}</div>
+                <div class="stat-label">En cours</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bouton d'action principal -->
+    <div class="action-button">
+        <a href="{% url 'tache_add' %}" class="btn btn-add-task">
+            <span class="btn-icon">+</span>
+            <span class="btn-text">Nouvelle tâche</span>
+        </a>
+    </div>
+
+    <!-- Liste des tâches -->
+    <div class="task-list-container">
+        {% if object_list %}
+        <div class="task-list">
+            <div class="task-header">
+                <div class="task-header-title">Tache</div>
+                <div class="task-header-status">Etat</div>
+                <div class="task-header-actions">Actions</div>
+            </div>
+            
+            {% for tache in object_list %}
+            <div class="task-item {% if tache.completed %}task-completed{% else %}task-pending{% endif %}">
+                <div class="task-title">
+                    {{ tache.title }}
+                </div>
+                <div class="task-status">
+                    {% if tache.completed %}
+                    <span class="status-badge completed">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                        </svg>
+                        Terminée
+                    </span>
+                    {% else %}
+                    <span class="status-badge pending">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                        </svg>
+                        En cours
+                    </span>
+                    {% endif %}
+                </div>
+                <div class="task-actions">
+                    <a href="{% url 'tache_edit' tache.pk %}" class="btn-action edit">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                        </svg>
+                    </a>
+                    <a href="{% url 'tache_delete' tache.pk %}" class="btn-action delete">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-task-list">
+            <div class="empty-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                    <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
+                </svg>
+            </div>
+            <h3>Aucune tâche pour le moment</h3>
+            <p>Commencez par ajouter votre première tâche!</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+:root {
+    --primary-color: #3b71ca;
+    --primary-light: #e8f0fe;
+    --success-color: #14a44d;
+    --success-light: #e8f5e9;
+    --warning-color: #e4a11b;
+    --warning-light: #fff8e1;
+    --danger-color: #dc4c64;
+    --danger-light: #ffebee;
+    --text-color: #4f4f4f;
+    --border-radius: 10px;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background-color: #f9fafb;
+    color: var(--text-color);
+}
+
+.navbar {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(to right, #2c3e50, #4c6ef5) !important;
+    padding: 15px 0;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+}
+
+.task-dashboard {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.dashboard-title h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.subtitle {
+    color: #6c757d;
+    margin-top: 0;
+}
+
+.dashboard-stats {
+    display: flex;
+    gap: 15px;
+}
+
+.stat-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 15px 25px;
+    box-shadow: var(--box-shadow);
+    min-width: 100px;
+    text-align: center;
+    transition: var(--transition);
+    border-top: 4px solid #b0bec5;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card.completed {
+    border-top-color: var(--success-color);
+}
+
+.stat-card.pending {
+    border-top-color: var(--warning-color);
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.action-button {
+    margin-bottom: 30px;
+}
+
+.btn-add-task {
+    background: linear-gradient(135deg, var(--primary-color), #4c6ef5);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(59, 113, 202, 0.3);
+    text-decoration: none;
+}
+
+.btn-add-task:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 113, 202, 0.4);
+    color: white;
+}
+
+.btn-icon {
+    font-size: 1.2rem;
+    margin-right: 8px;
+    font-weight: bold;
+}
+
+.task-list-container {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+}
+
+.task-header {
+    display: grid;
+    grid-template-columns: 2fr 1.44fr 0.3fr;
+    background-color: #f8f9fa;
+    padding: 15px 20px;
+    font-weight: 600;
+    color: #495057;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.task-item {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e9ecef;
+    transition: var(--transition);
+    align-items: center;
+}
+
+.task-item:hover {
+    background-color: #f8f9fa;
+}
+
+.task-item:last-child {
+    border-bottom: none;
+}
+
+.task-completed {
+    background-color: var(--success-light);
+}
+
+.task-title {
+    font-weight: 500;
+}
+
+.task-completed .task-title {
+    text-decoration: line-through;
+    color: #6c757d;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.status-badge svg {
+    margin-right: 5px;
+}
+
+.status-badge.completed {
+    background-color: var(--success-light);
+    color: var(--success-color);
+}
+
+.status-badge.pending {
+    background-color: var(--warning-light);
+    color: var(--warning-color);
+}
+
+.task-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.btn-action svg {
+    margin-right: 5px;
+}
+
+.btn-action.edit {
+    background-color: #e8f0fe;
+    color: var(--primary-color);
+}
+
+.btn-action.edit:hover {
+    background-color: #d0e1fd;
+}
+
+.btn-action.delete {
+    background-color: var(--danger-light);
+    color: var(--danger-color);
+}
+
+.btn-action.delete:hover {
+    background-color: #ffcdd2;
+}
+
+.empty-task-list {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.empty-icon {
+    color: #b0bec5;
+    margin-bottom: 20px;
+}
+
+.empty-task-list h3 {
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #495057;
+}
+
+.empty-task-list p {
+    color: #6c757d;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .dashboard-stats {
+        margin-top: 20px;
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .task-header, .task-item {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .task-header-status, .task-header-actions {
+        display: none;
+    }
+    
+    .task-actions {
+        justify-content: flex-start;
+    }
+}
+</style>
+{% endblock %}
